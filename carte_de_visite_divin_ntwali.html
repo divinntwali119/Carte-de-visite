@@ -14,7 +14,6 @@
       background-color: #f1f5f9;
     }
 
-    /* ===== Couleur du thème — ROUGE ===== */
     :root {
       --primary-color: #dc2626;
     }
@@ -39,12 +38,7 @@
       color: var(--primary-color, #dc2626);
     }
 
-    .theme-blue-border {
-      border-color: var(--primary-color, #dc2626);
-    }
-
-    /* ===== Contenu interne des cartes ===== */
-    /* FACE AVANT */
+    /* ===== FACE AVANT ===== */
     .card-front-content {
       padding: 5.5cqw 5cqw;
       display: flex;
@@ -89,7 +83,7 @@
       line-height: 1.2;
     }
 
-    /* FACE ARRIÈRE */
+    /* ===== FACE ARRIÈRE ===== */
     .card-back-content {
       padding: 4.8cqw 4.8cqw;
       display: flex;
@@ -231,28 +225,79 @@
       margin-top: 0.8cqw;
     }
 
+    /* ===== IMPRESSION — Seules les cartes s'impriment ===== */
     @media print {
+      @page {
+        size: auto;
+        margin: 10mm;
+      }
+
       body {
-        background: white;
+        background: white !important;
         padding: 0;
         margin: 0;
       }
-      .no-print {
+
+      /* Cacher tout sauf les cartes */
+      .no-print,
+      header,
+      .customization-panel,
+      .card-label,
+      .page-title {
         display: none !important;
       }
-      .print-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        padding: 20px;
+
+      main {
+        display: block !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        grid-template-columns: none !important;
       }
-      .business-card {
-        box-shadow: none;
-        border: 1px solid #ddd;
+
+      .cards-column {
+        display: block !important;
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .cards-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 15mm !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .card-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        margin: 0 !important;
         page-break-inside: avoid;
-        width: 3.5in;
-        height: 2in;
+        break-inside: avoid;
+      }
+
+      .business-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        width: 3.5in !important;
+        height: 2in !important;
+        max-width: 3.5in !important;
+        border-radius: 8px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* Forcer l'impression des couleurs de fond */
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
     }
   </style>
@@ -300,114 +345,116 @@
   <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
 
     <!-- Left Column: Business Card Displays -->
-    <div class="lg:col-span-7 flex flex-col items-center space-y-6 md:space-y-8 print-container w-full">
-      
-      <!-- Card Front (Verso - Rouge) -->
-      <div class="w-full flex flex-col items-center">
-        <div class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2 no-print flex items-center gap-2">
-          <i class="fa-solid fa-image"></i> Face Avant (Verso)
-        </div>
-        
-        <div id="card-front" class="business-card theme-blue-main rounded-xl text-white relative">
-          <div class="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none"></div>
-          <div class="absolute -left-8 -top-8 w-32 h-32 rounded-full bg-white/5 pointer-events-none"></div>
+    <div class="cards-column lg:col-span-7 w-full">
+      <div class="cards-wrapper flex flex-col items-center space-y-6 md:space-y-8">
 
-          <div class="card-front-content">
-            <div class="my-auto flex flex-col items-center" style="margin-top:auto;margin-bottom:auto;">
-              <div class="card-front-logo">
-                <svg viewBox="0 0 100 100" style="width:100%;height:100%;fill:currentColor;">
-                  <path fill-rule="evenodd" d="M 10,10 L 52,10 C 88,10 88,90 52,90 L 10,90 Z M 23,90 L 23,52 C 23,38 47,38 47,52 L 47,90 Z"/>
-                  <path d="M 31,90 L 31,60 C 31,54 39,54 39,60 L 39,90 Z"/>
-                </svg>
-              </div>
-
-              <h2 id="display-name-front" class="card-front-name">DIVIN NTWALI</h2>
-              <p id="display-title-front" class="card-front-title">DÉVELOPPEUR WEB & INFORMATICIEN</p>
-            </div>
-
-            <div class="card-front-url">
-              <span id="display-web-front">divinntwali119.github.io/mon-portfolio-divin/</span>
-            </div>
+        <!-- Card Front (Verso - Rouge) -->
+        <div class="card-wrapper w-full flex flex-col items-center">
+          <div class="card-label text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2 no-print flex items-center gap-2">
+            <i class="fa-solid fa-image"></i> Face Avant (Verso)
           </div>
-        </div>
-      </div>
-
-      <!-- Card Back (Recto) -->
-      <div class="w-full flex flex-col items-center">
-        <div class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2 no-print flex items-center gap-2">
-          <i class="fa-solid fa-address-card"></i> Face Arrière (Recto)
-        </div>
-
-        <div id="card-back" class="business-card bg-white rounded-xl border border-slate-200 relative">
           
-          <div class="card-back-content">
-            <div class="card-back-header">
-              <div style="min-width:0;">
-                <h3 id="display-name-back" class="card-back-name">DIVIN NTWALI</h3>
-                <p id="display-title-back" class="card-back-title">Développeur Web & Informaticien</p>
+          <div id="card-front" class="business-card theme-blue-main rounded-xl text-white relative">
+            <div class="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none"></div>
+            <div class="absolute -left-8 -top-8 w-32 h-32 rounded-full bg-white/5 pointer-events-none"></div>
+
+            <div class="card-front-content">
+              <div class="my-auto flex flex-col items-center" style="margin-top:auto;margin-bottom:auto;">
+                <div class="card-front-logo">
+                  <svg viewBox="0 0 100 100" style="width:100%;height:100%;fill:currentColor;">
+                    <path fill-rule="evenodd" d="M 10,10 L 52,10 C 88,10 88,90 52,90 L 10,90 Z M 23,90 L 23,52 C 23,38 47,38 47,52 L 47,90 Z"/>
+                    <path d="M 31,90 L 31,60 C 31,54 39,54 39,60 L 39,90 Z"/>
+                  </svg>
+                </div>
+
+                <h2 id="display-name-front" class="card-front-name">DIVIN NTWALI</h2>
+                <p id="display-title-front" class="card-front-title">DÉVELOPPEUR WEB & INFORMATICIEN</p>
               </div>
-              
-              <div class="card-back-mini-logo">
-                <svg viewBox="0 0 100 100" style="width:100%;height:100%;fill:currentColor;">
-                  <path fill-rule="evenodd" d="M 10,10 L 52,10 C 88,10 88,90 52,90 L 10,90 Z M 23,90 L 23,52 C 23,38 47,38 47,52 L 47,90 Z"/>
-                  <path d="M 31,90 L 31,60 C 31,54 39,54 39,60 L 39,90 Z"/>
-                </svg>
+
+              <div class="card-front-url">
+                <span id="display-web-front">divinntwali119.github.io/mon-portfolio-divin/</span>
               </div>
             </div>
-
-            <div class="card-back-body">
-              
-              <div class="card-back-details">
-                <div class="card-back-detail-row">
-                  <div class="card-back-detail-icon">
-                    <i class="fa-solid fa-phone"></i>
-                  </div>
-                  <div class="card-back-detail-text">
-                    <p id="display-phone1">+243901087801</p>
-                    <p id="display-phone2" class="card-back-detail-sub">+243962104398</p>
-                  </div>
-                </div>
-
-                <div class="card-back-detail-row">
-                  <div class="card-back-detail-icon">
-                    <i class="fa-solid fa-globe"></i>
-                  </div>
-                  <div class="card-back-detail-text">
-                    <p id="display-web-back" class="card-back-detail-url">
-                      divinntwali119.github.io/mon-portfolio-divin/
-                    </p>
-                  </div>
-                </div>
-
-                <div class="card-back-detail-row">
-                  <div class="card-back-detail-icon">
-                    <i class="fa-solid fa-location-dot"></i>
-                  </div>
-                  <div class="card-back-detail-text">
-                    <p id="display-address">Mont Ngafula RDC KINSHASA</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="card-back-qr-section">
-                <img src="images/qr-code.png" 
-                     alt="Code QR - Portfolio Divin Ntwali" 
-                     class="card-back-qr-img">
-                <span class="card-back-qr-label">Scannez-moi</span>
-              </div>
-
-            </div>
-
-            <div class="card-back-accent"></div>
           </div>
         </div>
 
-      </div>
+        <!-- Card Back (Recto) -->
+        <div class="card-wrapper w-full flex flex-col items-center">
+          <div class="card-label text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2 no-print flex items-center gap-2">
+            <i class="fa-solid fa-address-card"></i> Face Arrière (Recto)
+          </div>
 
+          <div id="card-back" class="business-card bg-white rounded-xl border border-slate-200 relative">
+            
+            <div class="card-back-content">
+              <div class="card-back-header">
+                <div style="min-width:0;">
+                  <h3 id="display-name-back" class="card-back-name">DIVIN NTWALI</h3>
+                  <p id="display-title-back" class="card-back-title">Développeur Web & Informaticien</p>
+                </div>
+                
+                <div class="card-back-mini-logo">
+                  <svg viewBox="0 0 100 100" style="width:100%;height:100%;fill:currentColor;">
+                    <path fill-rule="evenodd" d="M 10,10 L 52,10 C 88,10 88,90 52,90 L 10,90 Z M 23,90 L 23,52 C 23,38 47,38 47,52 L 47,90 Z"/>
+                    <path d="M 31,90 L 31,60 C 31,54 39,54 39,60 L 39,90 Z"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="card-back-body">
+                
+                <div class="card-back-details">
+                  <div class="card-back-detail-row">
+                    <div class="card-back-detail-icon">
+                      <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="card-back-detail-text">
+                      <p id="display-phone1">+243901087801</p>
+                      <p id="display-phone2" class="card-back-detail-sub">+243962104398</p>
+                    </div>
+                  </div>
+
+                  <div class="card-back-detail-row">
+                    <div class="card-back-detail-icon">
+                      <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div class="card-back-detail-text">
+                      <p id="display-web-back" class="card-back-detail-url">
+                        divinntwali119.github.io/mon-portfolio-divin/
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="card-back-detail-row">
+                    <div class="card-back-detail-icon">
+                      <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="card-back-detail-text">
+                      <p id="display-address">Mont Ngafula RDC KINSHASA</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-back-qr-section">
+                  <img src="images/qr-code.png" 
+                       alt="Code QR - Portfolio Divin Ntwali" 
+                       class="card-back-qr-img">
+                  <span class="card-back-qr-label">Scannez-moi</span>
+                </div>
+
+              </div>
+
+              <div class="card-back-accent"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
     </div>
 
     <!-- Right Column: Customization Controls -->
-    <div class="lg:col-span-5 no-print bg-white p-5 md:p-6 rounded-xl border border-slate-200 shadow-sm space-y-6 w-full">
+    <div class="customization-panel lg:col-span-5 no-print bg-white p-5 md:p-6 rounded-xl border border-slate-200 shadow-sm space-y-6 w-full">
       <div>
         <h2 class="text-base md:text-lg font-bold text-slate-900 border-b pb-2 flex items-center gap-2">
           <i class="fa-solid fa-sliders text-red-600"></i> Personnaliser la Carte
@@ -491,4 +538,4 @@
   </script>
 
 </body>
-</html>
+</html> 
